@@ -11,11 +11,6 @@
         body { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
         body, html { margin: 0; padding: 0; height: 100%; font-family: 'Orbitron', sans-serif; color: white; overflow: hidden; }
         
-        /* Snow Effect Glow & Deres */
-        #snow-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
-        .snowflake { position: absolute; background: white; border-radius: 50%; opacity: 0.9; box-shadow: 0 0 8px 2px white; animation: snow linear infinite; }
-        @keyframes snow { 0% { transform: translateY(-10vh); } 100% { transform: translateY(110vh); } }
-
         #loader-screen { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; }
         #sound-toggle { position: fixed; top: 20px; right: 20px; z-index: 9999; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px 15px; border-radius: 50px; cursor: pointer; backdrop-filter: blur(5px); }
         #toast { visibility: hidden; min-width: 250px; background-color: #ff4757; color: #fff; text-align: center; border-radius: 10px; padding: 16px; position: fixed; z-index: 10001; left: 50%; transform: translateX(-50%); bottom: 100px; font-size: 14px; box-shadow: 0px 0px 10px rgba(0,0,0,0.5); }
@@ -44,7 +39,6 @@
 <body>
 
 <div id="loader-screen"><p>LOADING ASSETS...</p></div>
-<div id="snow-container"></div>
 
 <button id="sound-toggle" onclick="toggleSound()">
     <i id="sound-icon" class="fas fa-volume-mute"></i> 
@@ -103,24 +97,8 @@
         }
     }
 
-    // Snow script (Deres & Glow)
-    const snowContainer = document.getElementById('snow-container');
-    function createSnowflake() {
-        const span = document.createElement('span');
-        span.className = 'snowflake';
-        const size = Math.random() * 3 + 1 + 'px'; // Ukuran kecil
-        span.style.width = size;
-        span.style.height = size;
-        span.style.left = Math.random() * 100 + '%';
-        span.style.animationDuration = Math.random() * 2 + 1 + 's'; // Lebih cepat
-        snowContainer.appendChild(span);
-        setTimeout(() => span.remove(), 4000);
-    }
-    setInterval(createSnowflake, 30); // Interval lebih kecil = lebih deres
-
     window.addEventListener('load', () => setTimeout(() => document.getElementById('loader-screen').style.display = 'none', 3000));
 
-    // ... sisa fungsi blockAction dan openTab Anda tetap sama ...
     const blockAction = (e) => {
         if (e.keyCode == 123 || (e.ctrlKey && (e.keyCode == 85 || e.keyCode == 73 || e.keyCode == 67 || e.keyCode == 83))) {
             e.preventDefault();
