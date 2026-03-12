@@ -1,122 +1,385 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VoxzyModzExe Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        body { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
-        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Orbitron', sans-serif; color: white; overflow: hidden; }
-        
-        #loader-screen { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; }
-        #sound-toggle { position: fixed; top: 20px; right: 20px; z-index: 9999; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px 15px; border-radius: 50px; cursor: pointer; backdrop-filter: blur(5px); }
-        #toast { visibility: hidden; min-width: 250px; background-color: #ff4757; color: #fff; text-align: center; border-radius: 10px; padding: 16px; position: fixed; z-index: 10001; left: 50%; transform: translateX(-50%); bottom: 100px; font-size: 14px; box-shadow: 0px 0px 10px rgba(0,0,0,0.5); }
-        #toast.show { visibility: visible; animation: fadeInOut 2.5s; }
-        @keyframes fadeInOut { 0% { opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; } }
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VoxzyModzExe Hub</title>
 
-        #bg-video { position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -3; }
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: -2; }
-        .app-container { width: 100vw; height: 100vh; display: flex; flex-direction: column; }
-        .content { flex: 1; padding: 20px; display: none; overflow-y: auto; padding-bottom: 100px; }
-        .content.active { display: block; animation: slideIn 0.3s ease-out; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .card { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 15px; border-radius: 15px; margin-bottom: 10px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
-        .btn-link { display: block; width: 100%; padding: 12px; margin-top: 10px; background: rgba(255, 255, 255, 0.1); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; border: none !important; cursor: pointer; transition: 0.3s; box-sizing: border-box; text-align: center; }
-        .btn-link:active { background: #90EE90 !important; color: #000 !important; }
-        
-        .nav { height: 80px; background: rgba(0,0,0,0.7); backdrop-filter: blur(15px); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); position: fixed; bottom: 0; width: 100%; z-index: 9999; }
-        .tab-btn { display: flex; flex-direction: column; align-items: center; cursor: pointer; border: none; background: none; color: white; opacity: 0.6; transition: 0.3s; font-family: 'Orbitron', sans-serif; }
-        .tab-btn.active { opacity: 1; color: #00d2ff; }
-        .tab-btn i { font-size: 24px; margin-bottom: 5px; }
-        .tab-btn span { font-size: 10px; margin-top: 4px; text-transform: uppercase; }
-        .wm { position: fixed; bottom: 85px; width: 100%; text-align: center; font-size: 8px; color: rgba(255,255,255,0.3); pointer-events: none; letter-spacing: 1px; }
-    </style>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+
+#welcome-screen{
+position:fixed;
+inset:0;
+background:#000;
+z-index:9999;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:28px;
+letter-spacing:2px;
+text-align:center;
+animation:fadeIn .5s;
+}
+
+@keyframes fadeIn{
+from{opacity:0}
+to{opacity:1}
+}
+
+body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
+body,html{margin:0;padding:0;height:100%;font-family:'Orbitron',sans-serif;color:white;overflow:hidden}
+
+/* SNOW CANVAS */
+#snow-canvas{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+z-index:-1;
+}
+
+/* LOADER */
+#loader-screen{position:fixed;inset:0;background:#000;z-index:10000;display:flex;justify-content:center;align-items:center;flex-direction:column}
+.spinner{width:50px;height:50px;border:5px solid rgba(255,255,255,0.1);border-top:5px solid #00d2ff;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:15px}
+@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+
+#sound-toggle{position:fixed;top:20px;right:20px;z-index:9999;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;padding:10px 15px;border-radius:50px;cursor:pointer;backdrop-filter:blur(5px)}
+
+#toast{visibility:hidden;min-width:250px;background-color:#ff4757;color:#fff;text-align:center;border-radius:10px;padding:16px;position:fixed;z-index:10001;left:50%;transform:translateX(-50%);bottom:100px;font-size:14px;box-shadow:0px 0px 10px rgba(0,0,0,0.5)}
+#toast.show{visibility:visible;animation:fadeInOut 2.5s}
+@keyframes fadeInOut{0%{opacity:0}20%{opacity:1}80%{opacity:1}100%{opacity:0}}
+
+#bg-video{position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:-3}
+
+.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:-2}
+
+.app-container{width:100vw;height:100vh;display:flex;flex-direction:column}
+
+.content{flex:1;padding:20px;display:none;overflow-y:auto;padding-bottom:100px}
+
+.content.active{display:block;animation:slideIn .3s ease-out}
+
+@keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.card{background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);padding:15px;border-radius:15px;margin-bottom:10px;text-align:center;border:1px solid rgba(255,255,255,0.1)}
+
+.btn-link{
+display:block;
+width:100%;
+padding:12px;
+margin-top:10px;
+background:rgba(255,255,255,0.1);
+color:white;
+text-decoration:none;
+border-radius:8px;
+font-weight:bold;
+border:none!important;
+cursor:pointer;
+transition:all .25s ease;
+box-sizing:border-box;
+text-align:center;
+}
+
+.btn-link:hover{
+background:#00d2ff;
+color:#000;
+box-shadow:0 0 15px #00d2ff,0 0 30px rgba(0,210,255,0.6);
+transform:scale(1.03);
+}
+
+.nav{height:80px;background:rgba(0,0,0,0.7);backdrop-filter:blur(15px);display:flex;justify-content:space-around;align-items:center;border-top:1px solid rgba(255,255,255,0.1);position:fixed;bottom:0;width:100%;z-index:9999}
+
+.tab-btn{display:flex;flex-direction:column;align-items:center;cursor:pointer;border:none;background:none;color:white;opacity:.6;transition:.3s;font-family:'Orbitron',sans-serif}
+
+.tab-btn.active{opacity:1;color:#00d2ff}
+
+.tab-btn i{font-size:24px;margin-bottom:5px}
+
+.tab-btn span{font-size:10px;margin-top:4px;text-transform:uppercase}
+
+.wm{position:fixed;bottom:110px;width:100%;text-align:center;font-size:13px;color:rgba(255,255,255,0.3);pointer-events:none;letter-spacing:1px}
+
+</style>
 </head>
+
 <body>
 
-<div id="loader-screen"><p>LOADING ASSETS...</p></div>
+<div id="loader-screen">
+<div class="spinner"></div>
+<p>LOADING ASSETS...</p>
+</div>
+
+<div id="spinner"></div>
+<div id="welcome-screen" style="display:none;">
+Welcome to voxzy hub official.
+</div>
 
 <button id="sound-toggle" onclick="toggleSound()">
-    <i id="sound-icon" class="fas fa-volume-mute"></i> 
+<i id="sound-icon" class="fas fa-volume-mute"></i>
 </button>
 
-<div id="toast"> VOXZY PROTECTION SUPER ! </div>
+<div id="toast">VOXZY PROTECTION SUPER !</div>
 
-<video id="bg-video" autoplay muted loop playsinline><source src="fiq.mp4" type="video/mp4"></video>
-<audio id="bg-music" loop><source src="fiq.mp3" type="audio/mpeg"></audio>
+<video id="bg-video" autoplay muted loop playsinline>
+<source src="fiq.mp4" type="video/mp4">
+</video>
+
+<audio id="bg-music" loop>
+<source src="fiq.mp3" type="audio/mpeg">
+</audio>
 
 <div class="overlay"></div>
+
+<canvas id="snow-canvas"></canvas>
+
 <div class="app-container">
-    <div id="tab1" class="content active">
-        <h2>ALL LINK</h2>
-        <div class="card">
-            <a href="https://t.me/voxzy_1st" class="btn-link" target="_blank"><i class="fab fa-telegram"></i> CH TELEGRAM #1 </a>
-            <a href="https://t.me/Voxzy_ofc2" class="btn-link" target="_blank"><i class="fab fa-telegram"></i> CH TELEGRAM #2 </a>
-            <a href="https://tiktok.com/@ownervoxzymodz" class="btn-link" target="_blank"><i class="fab fa-tiktok"></i> TIKTOK #1 </a>
-            <a href="https://tiktok.com/@voxzy2.com" class="btn-link" target="_blank"><i class="fab fa-tiktok"></i> TIKTOK #2 </a>
-            <a href="https://whatsapp.com/channel/0029VbCO0Ye9Bb65qLtTVL23" class="btn-link" target="_blank"><i class="fab fa-whatsapp"></i> SALURAN WA </a>
-        </div>
-    </div>
-    <div id="tab2" class="content">
-        <h2>KONTAK</h2>
-        <div class="card">
-            <p>WhatsApp Voxzy</p>
-            <a href="https://wa.me/6285789219654?text=BANG+VOXZY+MAU+ORDER" class="btn-link" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-            <p style="margin-top: 15px;">Telegram Voxzy</p>
-            <a href="https://t.me/Cek121212" class="btn-link" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
-        </div>
-    </div>
-    <div id="tab3" class="content"><h2>PROFIL</h2><div class="card"><p> VOXZYMODZEXE </p></div></div>
-    
-    <div class="wm"> - VoxzyModzExe Protection Super - </div>
-    <div class="nav">
-        <button class="tab-btn active" onclick="openTab(event, 'tab1')"><i class="fas fa-link"></i> <span>LINK</span></button>
-        <button class="tab-btn" onclick="openTab(event, 'tab2')"><i class="fas fa-address-book"></i> <span>CONTACT</span></button>
-        <button class="tab-btn" onclick="openTab(event, 'tab3')"><i class="fas fa-user"></i> <span>PROFIL</span></button>
-    </div>
+
+<div id="tab1" class="content active">
+<h2>ALL LINK</h2>
+
+<div class="card">
+
+<a href="https://t.me/voxzy_1st" class="btn-link" target="_blank">
+<i class="fab fa-telegram"></i> CH TELEGRAM #1
+</a>
+
+<a href="https://t.me/Voxzy_ofc2" class="btn-link" target="_blank">
+<i class="fab fa-telegram"></i> CH TELEGRAM #2
+</a>
+
+<a href="https://tiktok.com/@ownervoxzymodz" class="btn-link" target="_blank">
+<i class="fab fa-tiktok"></i> TIKTOK #1
+</a>
+
+<a href="https://tiktok.com/@voxzy2.com" class="btn-link" target="_blank">
+<i class="fab fa-tiktok"></i> TIKTOK #2
+</a>
+
+<a href="https://whatsapp.com/channel/0029VbCO0Ye9Bb65qLtTVL23" class="btn-link" target="_blank">
+<i class="fab fa-whatsapp"></i> SALURAN WA
+</a>
+
+</div>
+</div>
+
+<div id="tab2" class="content">
+
+<h2>KONTAK</h2>
+
+<div class="card">
+
+<p>WhatsApp Voxzy</p>
+
+<a href="https://wa.me/6285789219654?text=BANG+VOXZY+MAU+ORDER" class="btn-link" target="_blank">
+<i class="fab fa-whatsapp"></i> WhatsApp
+</a>
+
+<p style="margin-top:15px;">Telegram Voxzy</p>
+
+<a href="https://t.me/Cek121212" class="btn-link" target="_blank">
+<i class="fab fa-telegram"></i> Telegram
+</a>
+
+</div>
+</div>
+
+<div id="tab3" class="content">
+
+<h2>OWNER</h2>
+
+<div class="card">
+
+<p><b>- Shafiq Khairy -</b></p>
+<p><b>- VoxzyModzExe -</b></p>
+
+</div>
+
+</div>
+
+<div class="wm">- VoxzyModzExe Protection Super -</div>
+
+<div class="nav">
+
+<button class="tab-btn active" onclick="openTab(event,'tab1')">
+<i class="fas fa-link"></i>
+<span>LINK</span>
+</button>
+
+<button class="tab-btn" onclick="openTab(event,'tab2')">
+<i class="fas fa-address-book"></i>
+<span>CONTACT</span>
+</button>
+
+<button class="tab-btn" onclick="openTab(event,'tab3')">
+<i class="fas fa-user"></i>
+<span>OWNER</span>
+</button>
+
+</div>
+
 </div>
 
 <script>
-    const audio = document.getElementById('bg-music');
-    const soundIcon = document.getElementById('sound-icon');
-    let isPlaying = false; 
 
-    function toggleSound() {
-        if (isPlaying) {
-            audio.pause();
-            soundIcon.className = "fas fa-volume-mute";
-            isPlaying = false;
-        } else {
-            audio.play();
-            soundIcon.className = "fas fa-volume-up";
-            isPlaying = true;
-        }
-    }
+const audio=document.getElementById('bg-music')
+const soundIcon=document.getElementById('sound-icon')
 
-    window.addEventListener('load', () => setTimeout(() => document.getElementById('loader-screen').style.display = 'none', 3000));
+let isPlaying=false
 
-    const blockAction = (e) => {
-        if (e.keyCode == 123 || (e.ctrlKey && (e.keyCode == 85 || e.keyCode == 73 || e.keyCode == 67 || e.keyCode == 83))) {
-            e.preventDefault();
-            const t = document.getElementById("toast");
-            t.className = "show";
-            setTimeout(() => { t.className = t.className.replace("show", ""); }, 2500);
-            return false;
-        }
-    };
-    window.addEventListener('contextmenu', (e) => { e.preventDefault(); }, { capture: true });
-    window.addEventListener('keydown', blockAction, { capture: true });
+function toggleSound(){
 
-    function openTab(evt, tabId) {
-        document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        evt.currentTarget.classList.add('active');
-    }
+if(isPlaying){
+
+audio.pause()
+soundIcon.className="fas fa-volume-mute"
+isPlaying=false
+
+}else{
+
+audio.play()
+soundIcon.className="fas fa-volume-up"
+isPlaying=true
+
+}
+
+}
+
+window.addEventListener('load',()=>{
+
+setTimeout(()=>{
+
+document.getElementById('loader-screen').style.display='none'
+
+const welcome=document.getElementById("welcome-screen")
+
+welcome.style.display="flex"
+
+setTimeout(()=>{
+welcome.style.display="none"
+},2000)
+
+},3000)
+
+})
+
+const blockAction=(e)=>{
+
+if(e.keyCode==123||(e.ctrlKey&&(e.keyCode==85||e.keyCode==73||e.keyCode==67||e.keyCode==83))){
+
+e.preventDefault()
+
+const t=document.getElementById("toast")
+
+t.className="show"
+
+setTimeout(()=>{t.className=t.className.replace("show","")},2500)
+
+return false
+
+}
+
+}
+
+window.addEventListener('contextmenu',(e)=>{e.preventDefault()},{capture:true})
+
+window.addEventListener('keydown',blockAction,{capture:true})
+
+function openTab(evt,tabId){
+
+document.querySelectorAll('.content').forEach(c=>c.classList.remove('active'))
+
+document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'))
+
+document.getElementById(tabId).classList.add('active')
+
+evt.currentTarget.classList.add('active')
+
+}
+
+/* SNOW EFFECT */
+
+const canvas=document.getElementById("snow-canvas")
+const ctx=canvas.getContext("2d")
+
+canvas.width=window.innerWidth
+canvas.height=window.innerHeight
+
+let snow=[]
+let total=200
+
+function Snow(){
+
+this.x=Math.random()*canvas.width
+this.y=Math.random()*canvas.height
+this.r=Math.random()*2+0.5
+this.speedY=Math.random()*2+1.5
+this.speedX=(Math.random()-0.5)*1.5
+
+}
+
+for(let i=0;i<total;i++){
+
+snow.push(new Snow())
+
+}
+
+function drawSnow(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height)
+
+for(let i=0;i<snow.length;i++){
+
+let s=snow[i]
+
+ctx.beginPath()
+
+ctx.arc(s.x,s.y,s.r,0,Math.PI*2)
+
+ctx.fillStyle="rgba(255,255,255,0.9)"
+
+ctx.shadowBlur=8
+ctx.shadowColor="white"
+
+ctx.fill()
+
+s.y+=s.speedY
+s.x+=s.speedX
+
+if(s.y>canvas.height){
+
+s.y=-10
+s.x=Math.random()*canvas.width
+
+}
+
+if(s.x>canvas.width||s.x<0){
+
+s.x=Math.random()*canvas.width
+
+}
+
+}
+
+requestAnimationFrame(drawSnow)
+
+}
+
+drawSnow()
+
+window.addEventListener("resize",()=>{
+
+canvas.width=window.innerWidth
+canvas.height=window.innerHeight
+
+})
+
 </script>
+
 </body>
 </html>
