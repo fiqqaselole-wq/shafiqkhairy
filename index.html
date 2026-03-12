@@ -4,25 +4,27 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shafiq Khairy Hub</title>
+    <title>VoxzyModzExe Hub</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
         body, html { margin: 0; padding: 0; height: 100%; font-family: 'Orbitron', sans-serif; color: white; overflow: hidden; }
         
+        /* Snow Effect Glow & Deres */
+        #snow-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+        .snowflake { position: absolute; background: white; border-radius: 50%; opacity: 0.9; box-shadow: 0 0 8px 2px white; animation: snow linear infinite; }
+        @keyframes snow { 0% { transform: translateY(-10vh); } 100% { transform: translateY(110vh); } }
+
         #loader-screen { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; }
-
         #sound-toggle { position: fixed; top: 20px; right: 20px; z-index: 9999; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px 15px; border-radius: 50px; cursor: pointer; backdrop-filter: blur(5px); }
-
         #toast { visibility: hidden; min-width: 250px; background-color: #ff4757; color: #fff; text-align: center; border-radius: 10px; padding: 16px; position: fixed; z-index: 10001; left: 50%; transform: translateX(-50%); bottom: 100px; font-size: 14px; box-shadow: 0px 0px 10px rgba(0,0,0,0.5); }
         #toast.show { visibility: visible; animation: fadeInOut 2.5s; }
         @keyframes fadeInOut { 0% { opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; } }
 
-        #bg-video { position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: -1; }
+        #bg-video { position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -3; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: -2; }
         .app-container { width: 100vw; height: 100vh; display: flex; flex-direction: column; }
-        
         .content { flex: 1; padding: 20px; display: none; overflow-y: auto; padding-bottom: 100px; }
         .content.active { display: block; animation: slideIn 0.3s ease-out; }
         @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -36,19 +38,19 @@
         .tab-btn.active { opacity: 1; color: #00d2ff; }
         .tab-btn i { font-size: 24px; margin-bottom: 5px; }
         .tab-btn span { font-size: 10px; margin-top: 4px; text-transform: uppercase; }
-
         .wm { position: fixed; bottom: 85px; width: 100%; text-align: center; font-size: 8px; color: rgba(255,255,255,0.3); pointer-events: none; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
 <div id="loader-screen"><p>LOADING ASSETS...</p></div>
+<div id="snow-container"></div>
 
 <button id="sound-toggle" onclick="toggleSound()">
     <i id="sound-icon" class="fas fa-volume-mute"></i> 
 </button>
 
-<div id="toast"> SHAFIQ KHAIRY PROTECTION ! </div>
+<div id="toast"> VOXZY PROTECTION SUPER ! </div>
 
 <video id="bg-video" autoplay muted loop playsinline><source src="fiq.mp4" type="video/mp4"></video>
 <audio id="bg-music" loop><source src="fiq.mp3" type="audio/mpeg"></audio>
@@ -58,14 +60,25 @@
     <div id="tab1" class="content active">
         <h2>ALL LINK</h2>
         <div class="card">
-            <a href="https://sociabuzz.com/fiqxz777" class="btn-link" target="_blank"><i class="fas fa-donate"></i> LINK DONATE</a>
-            <a href="" class="btn-link" target="_blank"><i class="fab fa-tiktok"></i> TIKTOK</a>
+            <a href="https://t.me/voxzy_1st" class="btn-link" target="_blank"><i class="fab fa-telegram"></i> CH TELEGRAM #1 </a>
+            <a href="https://t.me/Voxzy_ofc2" class="btn-link" target="_blank"><i class="fab fa-telegram"></i> CH TELEGRAM #2 </a>
+            <a href="https://tiktok.com/@ownervoxzymodz" class="btn-link" target="_blank"><i class="fab fa-tiktok"></i> TIKTOK #1 </a>
+            <a href="https://tiktok.com/@voxzy2.com" class="btn-link" target="_blank"><i class="fab fa-tiktok"></i> TIKTOK #2 </a>
+            <a href="https://whatsapp.com/channel/0029VbCO0Ye9Bb65qLtTVL23" class="btn-link" target="_blank"><i class="fab fa-whatsapp"></i> SALURAN WA </a>
         </div>
     </div>
-    <div id="tab2" class="content"><h2>KONTAK</h2><div class="card"><p>WhatsApp: 0812-9896-8651</p><a href="https://wa.me/6281298968651?=SHAFIQ" class="btn-link">WHATSAPP</a></div></div>
-    <div id="tab3" class="content"><h2>PROFIL</h2><div class="card"><p>SHAFIQ KHAIRY</p></div></div>
+    <div id="tab2" class="content">
+        <h2>KONTAK</h2>
+        <div class="card">
+            <p>WhatsApp Voxzy</p>
+            <a href="https://wa.me/6285789219654?text=BANG+VOXZY+MAU+ORDER" class="btn-link" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            <p style="margin-top: 15px;">Telegram Voxzy</p>
+            <a href="https://t.me/Cek121212" class="btn-link" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
+        </div>
+    </div>
+    <div id="tab3" class="content"><h2>PROFIL</h2><div class="card"><p> VOXZYMODZEXE </p></div></div>
     
-    <div class="wm">SHAFIQ KHAIRY PROTECTION SUPER</div>
+    <div class="wm"> - VoxzyModzExe Protection Super - </div>
     <div class="nav">
         <button class="tab-btn active" onclick="openTab(event, 'tab1')"><i class="fas fa-link"></i> <span>LINK</span></button>
         <button class="tab-btn" onclick="openTab(event, 'tab2')"><i class="fas fa-address-book"></i> <span>CONTACT</span></button>
@@ -90,8 +103,24 @@
         }
     }
 
+    // Snow script (Deres & Glow)
+    const snowContainer = document.getElementById('snow-container');
+    function createSnowflake() {
+        const span = document.createElement('span');
+        span.className = 'snowflake';
+        const size = Math.random() * 3 + 1 + 'px'; // Ukuran kecil
+        span.style.width = size;
+        span.style.height = size;
+        span.style.left = Math.random() * 100 + '%';
+        span.style.animationDuration = Math.random() * 2 + 1 + 's'; // Lebih cepat
+        snowContainer.appendChild(span);
+        setTimeout(() => span.remove(), 4000);
+    }
+    setInterval(createSnowflake, 30); // Interval lebih kecil = lebih deres
+
     window.addEventListener('load', () => setTimeout(() => document.getElementById('loader-screen').style.display = 'none', 3000));
 
+    // ... sisa fungsi blockAction dan openTab Anda tetap sama ...
     const blockAction = (e) => {
         if (e.keyCode == 123 || (e.ctrlKey && (e.keyCode == 85 || e.keyCode == 73 || e.keyCode == 67 || e.keyCode == 83))) {
             e.preventDefault();
