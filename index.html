@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shafiq Khairy Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Orbitron', sans-serif; color: white; overflow: hidden; }
+        
+        #loader-screen { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; }
+
+        #sound-toggle { position: fixed; top: 20px; right: 20px; z-index: 9999; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px 15px; border-radius: 50px; cursor: pointer; backdrop-filter: blur(5px); }
+
+        #toast { visibility: hidden; min-width: 250px; background-color: #ff4757; color: #fff; text-align: center; border-radius: 10px; padding: 16px; position: fixed; z-index: 10001; left: 50%; transform: translateX(-50%); bottom: 100px; font-size: 14px; box-shadow: 0px 0px 10px rgba(0,0,0,0.5); }
+        #toast.show { visibility: visible; animation: fadeInOut 2.5s; }
+        @keyframes fadeInOut { 0% { opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; } }
+
+        #bg-video { position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: -1; }
+        .app-container { width: 100vw; height: 100vh; display: flex; flex-direction: column; }
+        
+        .content { flex: 1; padding: 20px; display: none; overflow-y: auto; padding-bottom: 100px; }
+        .content.active { display: block; animation: slideIn 0.3s ease-out; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .card { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 15px; border-radius: 15px; margin-bottom: 10px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
+        .btn-link { display: block; width: 100%; padding: 12px; margin-top: 10px; background: rgba(255, 255, 255, 0.1); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; border: none !important; cursor: pointer; transition: 0.3s; box-sizing: border-box; text-align: center; }
+        .btn-link:active { background: #90EE90 !important; color: #000 !important; }
+        
+        .nav { height: 80px; background: rgba(0,0,0,0.7); backdrop-filter: blur(15px); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); position: fixed; bottom: 0; width: 100%; z-index: 9999; }
+        .tab-btn { display: flex; flex-direction: column; align-items: center; cursor: pointer; border: none; background: none; color: white; opacity: 0.6; transition: 0.3s; font-family: 'Orbitron', sans-serif; }
+        .tab-btn.active { opacity: 1; color: #00d2ff; }
+        .tab-btn i { font-size: 24px; margin-bottom: 5px; }
+        .tab-btn span { font-size: 10px; margin-top: 4px; text-transform: uppercase; }
+
+        .wm { position: fixed; bottom: 85px; width: 100%; text-align: center; font-size: 8px; color: rgba(255,255,255,0.3); pointer-events: none; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+
+<div id="loader-screen"><p>LOADING ASSETS...</p></div>
+
+<button id="sound-toggle" onclick="toggleSound()">
+    <i id="sound-icon" class="fas fa-volume-mute"></i> 
+</button>
+
+<div id="toast"> SHAFIQ KHAIRY PROTECTION ! </div>
+
+<video id="bg-video" autoplay muted loop playsinline><source src="fiq.mp4" type="video/mp4"></video>
+<audio id="bg-music" loop><source src="fiq.mp3" type="audio/mpeg"></audio>
+
+<div class="overlay"></div>
+<div class="app-container">
+    <div id="tab1" class="content active">
+        <h2>ALL LINK</h2>
+        <div class="card">
+            <a href="https://sociabuzz.com/fiqxz777" class="btn-link" target="_blank"><i class="fas fa-donate"></i> LINK DONATE</a>
+            <a href="" class="btn-link" target="_blank"><i class="fab fa-tiktok"></i> TIKTOK</a>
+        </div>
+    </div>
+    <div id="tab2" class="content"><h2>KONTAK</h2><div class="card"><p>WhatsApp: 0812-9896-8651</p><a href="https://wa.me/6281298968651?=SHAFIQ" class="btn-link">WHATSAPP</a></div></div>
+    <div id="tab3" class="content"><h2>PROFIL</h2><div class="card"><p>SHAFIQ KHAIRY</p></div></div>
+    
+    <div class="wm">SHAFIQ KHAIRY PROTECTION SUPER</div>
+    <div class="nav">
+        <button class="tab-btn active" onclick="openTab(event, 'tab1')"><i class="fas fa-link"></i> <span>LINK</span></button>
+        <button class="tab-btn" onclick="openTab(event, 'tab2')"><i class="fas fa-address-book"></i> <span>CONTACT</span></button>
+        <button class="tab-btn" onclick="openTab(event, 'tab3')"><i class="fas fa-user"></i> <span>PROFIL</span></button>
+    </div>
+</div>
+
+<script>
+    const audio = document.getElementById('bg-music');
+    const soundIcon = document.getElementById('sound-icon');
+    let isPlaying = false; 
+
+    function toggleSound() {
+        if (isPlaying) {
+            audio.pause();
+            soundIcon.className = "fas fa-volume-mute";
+            isPlaying = false;
+        } else {
+            audio.play();
+            soundIcon.className = "fas fa-volume-up";
+            isPlaying = true;
+        }
+    }
+
+    window.addEventListener('load', () => setTimeout(() => document.getElementById('loader-screen').style.display = 'none', 3000));
+
+    const blockAction = (e) => {
+        if (e.keyCode == 123 || (e.ctrlKey && (e.keyCode == 85 || e.keyCode == 73 || e.keyCode == 67 || e.keyCode == 83))) {
+            e.preventDefault();
+            const t = document.getElementById("toast");
+            t.className = "show";
+            setTimeout(() => { t.className = t.className.replace("show", ""); }, 2500);
+            return false;
+        }
+    };
+    window.addEventListener('contextmenu', (e) => { e.preventDefault(); }, { capture: true });
+    window.addEventListener('keydown', blockAction, { capture: true });
+
+    function openTab(evt, tabId) {
+        document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        evt.currentTarget.classList.add('active');
+    }
+</script>
+</body>
+</html>
